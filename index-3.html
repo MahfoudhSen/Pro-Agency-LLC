@@ -1,0 +1,1699 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Pro Services Agency LLC - IRS Registered Tax & Accounting Services in the Bronx, NY. Expert tax preparation, bookkeeping, and financial consulting for individuals and businesses.">
+    <meta name="keywords" content="tax services Bronx, accountant Bronx NY, IRS registered agent, tax preparation, bookkeeping, Williamsbridge accounting">
+    <title>Pro Services Agency LLC | Expert Tax & Accounting Services in the Bronx</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Leaflet for Map -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    
+    <style>
+        :root {
+            --primary-navy: #0a2540;
+            --primary-gold: #d4a574;
+            --accent-teal: #2c7a7b;
+            --light-cream: #faf8f5;
+            --dark-gray: #2d3748;
+            --medium-gray: #718096;
+            --white: #ffffff;
+            --gradient-dark: linear-gradient(135deg, #0a2540 0%, #1a3a5a 100%);
+            --gradient-gold: linear-gradient(135deg, #d4a574 0%, #c89560 100%);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Outfit', sans-serif;
+            color: var(--dark-gray);
+            line-height: 1.6;
+            overflow-x: hidden;
+            background: var(--white);
+        }
+        
+        /* Navigation */
+        .nav-container {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.05);
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-container.scrolled {
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        nav {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1.2rem 3rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary-navy);
+            text-decoration: none;
+            letter-spacing: -0.5px;
+        }
+        
+        .logo span {
+            color: var(--primary-gold);
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2.5rem;
+            align-items: center;
+        }
+        
+        .nav-links a {
+            color: var(--dark-gray);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+        
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary-gold);
+            transition: width 0.3s ease;
+        }
+        
+        .nav-links a:hover {
+            color: var(--primary-navy);
+        }
+        
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+        
+        .cta-button {
+            background: var(--gradient-gold);
+            color: var(--white);
+            padding: 0.8rem 1.8rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 4px 15px rgba(212, 165, 116, 0.3);
+        }
+        
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 25px rgba(212, 165, 116, 0.4);
+        }
+        
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--primary-navy);
+            cursor: pointer;
+        }
+        
+        /* Hero Section */
+        .hero {
+            margin-top: 80px;
+            min-height: 90vh;
+            background: var(--gradient-dark);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(212, 165, 116, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(44, 122, 123, 0.15) 0%, transparent 50%);
+            animation: heroGlow 10s ease-in-out infinite alternate;
+        }
+        
+        @keyframes heroGlow {
+            0% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+        
+        .hero-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 4rem 3rem;
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .hero-text h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 4rem;
+            font-weight: 700;
+            color: var(--white);
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            animation: fadeInUp 0.8s ease-out;
+        }
+        
+        .hero-text .tagline {
+            color: var(--primary-gold);
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            animation: fadeInUp 0.8s ease-out 0.2s both;
+        }
+        
+        .hero-text p {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 1.15rem;
+            margin-bottom: 2.5rem;
+            line-height: 1.8;
+            animation: fadeInUp 0.8s ease-out 0.4s both;
+        }
+        
+        .hero-buttons {
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            animation: fadeInUp 0.8s ease-out 0.6s both;
+        }
+        
+        .btn-primary {
+            background: var(--gradient-gold);
+            color: var(--white);
+            padding: 1rem 2.5rem;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.05rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 20px rgba(212, 165, 116, 0.4);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 30px rgba(212, 165, 116, 0.5);
+        }
+        
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--white);
+            padding: 1rem 2.5rem;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.05rem;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+        
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: var(--primary-gold);
+        }
+        
+        .hero-badge {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            padding: 2.5rem;
+            animation: fadeInRight 1s ease-out 0.4s both;
+        }
+        
+        .hero-badge h3 {
+            font-family: 'Playfair Display', serif;
+            color: var(--primary-gold);
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+        }
+        
+        .badge-items {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        
+        .badge-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            color: var(--white);
+        }
+        
+        .badge-icon {
+            width: 50px;
+            height: 50px;
+            background: var(--gradient-gold);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes fadeInRight {
+            from {
+                opacity: 0;
+                transform: translateX(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        /* Stats Section */
+        .stats-section {
+            background: var(--light-cream);
+            padding: 4rem 3rem;
+            position: relative;
+        }
+        
+        .stats-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+        }
+        
+        .stat-item {
+            text-align: center;
+            padding: 2rem;
+            background: var(--white);
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .stat-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .stat-number {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--primary-navy);
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-label {
+            color: var(--medium-gray);
+            font-weight: 500;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+        }
+        
+        /* About Section */
+        .about-section {
+            padding: 6rem 3rem;
+            background: var(--white);
+        }
+        
+        .about-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 5rem;
+            align-items: center;
+        }
+        
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            color: var(--primary-navy);
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+        }
+        
+        .section-subtitle {
+            color: var(--primary-gold);
+            font-weight: 600;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 1rem;
+        }
+        
+        .about-text p {
+            margin-bottom: 1.5rem;
+            font-size: 1.05rem;
+            color: var(--medium-gray);
+            line-height: 1.8;
+        }
+        
+        .about-features {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        
+        .feature-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+        }
+        
+        .feature-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--gradient-gold);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            flex-shrink: 0;
+        }
+        
+        .feature-text h4 {
+            color: var(--primary-navy);
+            font-weight: 600;
+            margin-bottom: 0.3rem;
+        }
+        
+        .feature-text p {
+            font-size: 0.9rem;
+            color: var(--medium-gray);
+            margin: 0;
+        }
+        
+        .about-image {
+            position: relative;
+        }
+        
+        .about-image-main {
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+            position: relative;
+        }
+        
+        .about-image-main img {
+            width: 100%;
+            height: 500px;
+            object-fit: cover;
+        }
+        
+        .about-card {
+            position: absolute;
+            bottom: -30px;
+            right: -30px;
+            background: var(--white);
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+            max-width: 280px;
+        }
+        
+        .about-card h4 {
+            font-family: 'Playfair Display', serif;
+            color: var(--primary-navy);
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .rating {
+            color: var(--primary-gold);
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        /* Services Section */
+        .services-section {
+            padding: 6rem 3rem;
+            background: var(--light-cream);
+        }
+        
+        .services-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .services-header {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto 4rem;
+        }
+        
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2.5rem;
+        }
+        
+        .service-card {
+            background: var(--white);
+            border-radius: 20px;
+            padding: 2.5rem;
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 0;
+            background: var(--gradient-gold);
+            transition: height 0.3s ease;
+        }
+        
+        .service-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
+        }
+        
+        .service-card:hover::before {
+            height: 100%;
+        }
+        
+        .service-icon {
+            width: 70px;
+            height: 70px;
+            background: var(--gradient-gold);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: var(--white);
+            margin-bottom: 1.5rem;
+        }
+        
+        .service-card h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.6rem;
+            color: var(--primary-navy);
+            margin-bottom: 1rem;
+        }
+        
+        .service-card p {
+            color: var(--medium-gray);
+            margin-bottom: 1.5rem;
+            line-height: 1.7;
+        }
+        
+        .service-features {
+            list-style: none;
+            margin-bottom: 1.5rem;
+        }
+        
+        .service-features li {
+            padding: 0.5rem 0;
+            color: var(--medium-gray);
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+        
+        .service-features li::before {
+            content: '✓';
+            color: var(--primary-gold);
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+        
+        .service-link {
+            color: var(--primary-navy);
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: gap 0.3s ease;
+        }
+        
+        .service-link:hover {
+            gap: 1rem;
+        }
+        
+        /* Testimonials Section */
+        .testimonials-section {
+            padding: 6rem 3rem;
+            background: var(--white);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .testimonials-section::before {
+            content: '"';
+            position: absolute;
+            top: 50px;
+            left: 5%;
+            font-family: 'Playfair Display', serif;
+            font-size: 20rem;
+            color: rgba(212, 165, 116, 0.05);
+            line-height: 1;
+        }
+        
+        .testimonials-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .testimonials-header {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto 4rem;
+        }
+        
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2.5rem;
+        }
+        
+        .testimonial-card {
+            background: var(--light-cream);
+            border-radius: 20px;
+            padding: 2.5rem;
+            position: relative;
+        }
+        
+        .testimonial-rating {
+            color: var(--primary-gold);
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+        }
+        
+        .testimonial-text {
+            font-size: 1.05rem;
+            color: var(--dark-gray);
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+            font-style: italic;
+        }
+        
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .author-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--gradient-gold);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            font-weight: 600;
+            font-size: 1.2rem;
+        }
+        
+        .author-info h4 {
+            color: var(--primary-navy);
+            font-weight: 600;
+            margin-bottom: 0.2rem;
+        }
+        
+        .author-info p {
+            color: var(--medium-gray);
+            font-size: 0.9rem;
+        }
+        
+        /* Contact Section */
+        .contact-section {
+            padding: 6rem 3rem;
+            background: var(--light-cream);
+        }
+        
+        .contact-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+        }
+        
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+        
+        .info-card {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+            display: flex;
+            gap: 1.5rem;
+            align-items: flex-start;
+        }
+        
+        .info-icon {
+            width: 50px;
+            height: 50px;
+            background: var(--gradient-gold);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+        
+        .info-content h3 {
+            color: var(--primary-navy);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        
+        .info-content p {
+            color: var(--medium-gray);
+            line-height: 1.6;
+        }
+        
+        .info-content a {
+            color: var(--primary-gold);
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .info-content a:hover {
+            text-decoration: underline;
+        }
+        
+        .hours-list {
+            list-style: none;
+            margin-top: 0.5rem;
+        }
+        
+        .hours-list li {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+        
+        .hours-list li:last-child {
+            border-bottom: none;
+        }
+        
+        .contact-form-container {
+            background: var(--white);
+            padding: 2.5rem;
+            border-radius: 20px;
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.08);
+        }
+        
+        .contact-form-container h2 {
+            font-family: 'Playfair Display', serif;
+            color: var(--primary-navy);
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            color: var(--dark-gray);
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+        
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 0.9rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+        
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--primary-gold);
+        }
+        
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+        
+        .submit-btn {
+            background: var(--gradient-gold);
+            color: var(--white);
+            padding: 1rem 2.5rem;
+            border: none;
+            border-radius: 10px;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 600;
+            font-size: 1.05rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 20px rgba(212, 165, 116, 0.3);
+            width: 100%;
+        }
+        
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 30px rgba(212, 165, 116, 0.4);
+        }
+        
+        /* Map Section */
+        .map-section {
+            height: 500px;
+            position: relative;
+        }
+        
+        #map {
+            height: 100%;
+            width: 100%;
+        }
+        
+        /* Footer */
+        footer {
+            background: var(--primary-navy);
+            color: var(--white);
+            padding: 4rem 3rem 2rem;
+        }
+        
+        .footer-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+        
+        .footer-about h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            color: var(--primary-gold);
+        }
+        
+        .footer-about p {
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        .social-link {
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .social-link:hover {
+            background: var(--primary-gold);
+            transform: translateY(-3px);
+        }
+        
+        .footer-links h4 {
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            color: var(--primary-gold);
+        }
+        
+        .footer-links ul {
+            list-style: none;
+        }
+        
+        .footer-links ul li {
+            margin-bottom: 0.8rem;
+        }
+        
+        .footer-links ul li a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .footer-links ul li a:hover {
+            color: var(--primary-gold);
+        }
+        
+        .newsletter {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+        
+        .newsletter input {
+            flex: 1;
+            padding: 0.8rem;
+            border: none;
+            border-radius: 8px;
+            font-family: 'Outfit', sans-serif;
+        }
+        
+        .newsletter button {
+            background: var(--primary-gold);
+            color: var(--white);
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        
+        .newsletter button:hover {
+            transform: translateY(-2px);
+        }
+        
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.6);
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .hero-content {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+            
+            .about-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .contact-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .footer-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            nav {
+                padding: 1rem 1.5rem;
+            }
+            
+            .nav-links {
+                position: fixed;
+                top: 70px;
+                left: -100%;
+                width: 100%;
+                height: calc(100vh - 70px);
+                background: var(--white);
+                flex-direction: column;
+                padding: 2rem;
+                transition: left 0.3s ease;
+                box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            }
+            
+            .nav-links.active {
+                left: 0;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .hero-text h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero-text .tagline {
+                font-size: 1.1rem;
+            }
+            
+            .section-title {
+                font-size: 2.2rem;
+            }
+            
+            .services-grid,
+            .testimonials-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .footer-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .about-card {
+                position: static;
+                margin-top: 2rem;
+                max-width: 100%;
+            }
+        }
+        
+        /* Scroll Animations - Content visible by default */
+        .scroll-fade {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Only apply animation if JavaScript adds this class */
+        .scroll-fade.animate-on-scroll {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+        
+        .scroll-fade.animate-on-scroll.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <div class="nav-container">
+        <nav>
+            <a href="#home" class="logo">Pro <span>Services</span></a>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#services">Services</a></li>
+                <li><a href="#testimonials">Reviews</a></li>
+                <li><a href="#contact">Contact</a></li>
+                <li><a href="#contact" class="cta-button">Book Appointment</a></li>
+            </ul>
+            <button class="mobile-menu-btn" id="mobileMenuBtn">☰</button>
+        </nav>
+    </div>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <div class="hero-text">
+                <div class="tagline">IRS Registered Agency</div>
+                <h1>Expert Tax & Accounting Solutions</h1>
+                <p>Trusted financial expertise for individuals and businesses in the Bronx. From tax preparation to comprehensive bookkeeping, we deliver precision, professionalism, and peace of mind.</p>
+                <div class="hero-buttons">
+                    <a href="#contact" class="btn-primary">Schedule Consultation →</a>
+                    <a href="#services" class="btn-secondary">Our Services</a>
+                </div>
+            </div>
+            <div class="hero-badge">
+                <h3>Why Choose Us?</h3>
+                <div class="badge-items">
+                    <div class="badge-item">
+                        <div class="badge-icon">🏆</div>
+                        <div>
+                            <strong>IRS Registered</strong><br>
+                            <small>Certified professionals you can trust</small>
+                        </div>
+                    </div>
+                    <div class="badge-item">
+                        <div class="badge-icon">⭐</div>
+                        <div>
+                            <strong>5.0 Rating</strong><br>
+                            <small>Exceptional client satisfaction</small>
+                        </div>
+                    </div>
+                    <div class="badge-item">
+                        <div class="badge-icon">📍</div>
+                        <div>
+                            <strong>Local Experts</strong><br>
+                            <small>Serving the Bronx community</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats-section">
+        <div class="stats-container">
+            <div class="stat-item scroll-fade">
+                <div class="stat-number">15+</div>
+                <div class="stat-label">Years of Excellence</div>
+            </div>
+            <div class="stat-item scroll-fade">
+                <div class="stat-number">2000+</div>
+                <div class="stat-label">Clients Served</div>
+            </div>
+            <div class="stat-item scroll-fade">
+                <div class="stat-number">98%</div>
+                <div class="stat-label">Client Satisfaction</div>
+            </div>
+            <div class="stat-item scroll-fade">
+                <div class="stat-number">$5M+</div>
+                <div class="stat-label">Tax Savings Secured</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about-section">
+        <div class="about-container">
+            <div class="about-text scroll-fade">
+                <div class="section-subtitle">About Us</div>
+                <h2 class="section-title">Your Trusted Financial Partner in the Bronx</h2>
+                <p>Pro Services Agency LLC has been serving the Bronx community with integrity and expertise for over 15 years. As an IRS Registered Agency, we provide comprehensive tax and accounting services tailored to the unique needs of individuals, families, and small businesses.</p>
+                <p>Our team combines technical expertise with personalized service, ensuring that every client receives the attention and strategic guidance they deserve. We're not just number crunchers – we're your partners in financial success.</p>
+                
+                <div class="about-features">
+                    <div class="feature-item">
+                        <div class="feature-icon">✓</div>
+                        <div class="feature-text">
+                            <h4>IRS Certified</h4>
+                            <p>Registered and authorized</p>
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">✓</div>
+                        <div class="feature-text">
+                            <h4>Expert Team</h4>
+                            <p>Experienced professionals</p>
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">✓</div>
+                        <div class="feature-text">
+                            <h4>Local Focus</h4>
+                            <p>Deep community roots</p>
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">✓</div>
+                        <div class="feature-text">
+                            <h4>Personalized Service</h4>
+                            <p>Tailored to your needs</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="about-image scroll-fade">
+                <div class="about-image-main">
+                    <img src="https://images.unsplash.com/photo-1554224311-beee4ece8db7?w=800&q=80" alt="Professional accounting services">
+                </div>
+                <div class="about-card">
+                    <h4>Google Reviews</h4>
+                    <div class="rating">★★★★★ 5.0</div>
+                    <p style="color: var(--medium-gray); margin: 0;">Rated excellent by our clients across the Bronx</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="services-section">
+        <div class="services-container">
+            <div class="services-header scroll-fade">
+                <div class="section-subtitle">Our Services</div>
+                <h2 class="section-title">Comprehensive Financial Solutions</h2>
+                <p style="color: var(--medium-gray); font-size: 1.1rem;">From individual tax returns to complex business accounting, we provide expert services tailored to your needs.</p>
+            </div>
+            
+            <div class="services-grid">
+                <div class="service-card scroll-fade">
+                    <div class="service-icon">📋</div>
+                    <h3>Tax Preparation</h3>
+                    <p>Expert preparation of individual, business, and corporate tax returns. We maximize your deductions and ensure compliance.</p>
+                    <ul class="service-features">
+                        <li>Individual tax returns</li>
+                        <li>Business tax filings</li>
+                        <li>State & federal returns</li>
+                        <li>Amendment services</li>
+                    </ul>
+                    <a href="#contact" class="service-link">Get Started →</a>
+                </div>
+                
+                <div class="service-card scroll-fade">
+                    <div class="service-icon">💼</div>
+                    <h3>Bookkeeping Services</h3>
+                    <p>Professional bookkeeping to keep your finances organized and your business running smoothly throughout the year.</p>
+                    <ul class="service-features">
+                        <li>Monthly reconciliation</li>
+                        <li>Financial statements</li>
+                        <li>Accounts payable/receivable</li>
+                        <li>Payroll processing</li>
+                    </ul>
+                    <a href="#contact" class="service-link">Learn More →</a>
+                </div>
+                
+                <div class="service-card scroll-fade">
+                    <div class="service-icon">🎯</div>
+                    <h3>Tax Planning</h3>
+                    <p>Strategic tax planning to minimize liability and maximize savings for your future financial goals.</p>
+                    <ul class="service-features">
+                        <li>Year-round consultation</li>
+                        <li>Strategy development</li>
+                        <li>Retirement planning</li>
+                        <li>Quarterly estimates</li>
+                    </ul>
+                    <a href="#contact" class="service-link">Schedule Call →</a>
+                </div>
+                
+                <div class="service-card scroll-fade">
+                    <div class="service-icon">🏢</div>
+                    <h3>Business Formation</h3>
+                    <p>Guidance through entity selection, registration, and establishing proper accounting systems for new businesses.</p>
+                    <ul class="service-features">
+                        <li>LLC & corporation setup</li>
+                        <li>EIN registration</li>
+                        <li>Business licenses</li>
+                        <li>Compliance guidance</li>
+                    </ul>
+                    <a href="#contact" class="service-link">Start Today →</a>
+                </div>
+                
+                <div class="service-card scroll-fade">
+                    <div class="service-icon">⚖️</div>
+                    <h3>IRS Representation</h3>
+                    <p>Professional representation for audits, appeals, and IRS correspondence. We protect your rights and interests.</p>
+                    <ul class="service-features">
+                        <li>Audit defense</li>
+                        <li>Payment plans</li>
+                        <li>Penalty abatement</li>
+                        <li>Collection resolution</li>
+                    </ul>
+                    <a href="#contact" class="service-link">Get Help →</a>
+                </div>
+                
+                <div class="service-card scroll-fade">
+                    <div class="service-icon">📊</div>
+                    <h3>Financial Consulting</h3>
+                    <p>Expert advice on financial matters, cash flow management, and business growth strategies.</p>
+                    <ul class="service-features">
+                        <li>Financial analysis</li>
+                        <li>Budget planning</li>
+                        <li>Cash flow management</li>
+                        <li>Growth strategies</li>
+                    </ul>
+                    <a href="#contact" class="service-link">Consult Now →</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section id="testimonials" class="testimonials-section">
+        <div class="testimonials-container">
+            <div class="testimonials-header scroll-fade">
+                <div class="section-subtitle">Client Reviews</div>
+                <h2 class="section-title">What Our Clients Say</h2>
+                <p style="color: var(--medium-gray); font-size: 1.1rem;">Don't just take our word for it – hear from the clients we've helped achieve their financial goals.</p>
+            </div>
+            
+            <div class="testimonials-grid">
+                <div class="testimonial-card scroll-fade">
+                    <div class="testimonial-rating">★★★★★</div>
+                    <p class="testimonial-text">"Pro Services Agency has been handling my business taxes for three years now. Their attention to detail and proactive approach has saved me thousands. Highly recommend!"</p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">MR</div>
+                        <div class="author-info">
+                            <h4>Maria Rodriguez</h4>
+                            <p>Small Business Owner</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="testimonial-card scroll-fade">
+                    <div class="testimonial-rating">★★★★★</div>
+                    <p class="testimonial-text">"Professional, knowledgeable, and always available to answer questions. They made my first tax season as a business owner stress-free. Thank you!"</p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">JC</div>
+                        <div class="author-info">
+                            <h4>James Chen</h4>
+                            <p>Restaurant Owner</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="testimonial-card scroll-fade">
+                    <div class="testimonial-rating">★★★★★</div>
+                    <p class="testimonial-text">"When I received an IRS audit notice, I was terrified. Pro Services represented me professionally and resolved everything smoothly. They're simply the best!"</p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">SJ</div>
+                        <div class="author-info">
+                            <h4>Sarah Johnson</h4>
+                            <p>Healthcare Professional</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="testimonial-card scroll-fade">
+                    <div class="testimonial-rating">★★★★★</div>
+                    <p class="testimonial-text">"Their bookkeeping services have transformed how I manage my finances. Everything is organized, and I always know exactly where my business stands."</p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">DW</div>
+                        <div class="author-info">
+                            <h4>David Williams</h4>
+                            <p>Retail Store Owner</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="testimonial-card scroll-fade">
+                    <div class="testimonial-rating">★★★★★</div>
+                    <p class="testimonial-text">"As a family, we've been with Pro Services for over 10 years. They're trustworthy, professional, and truly care about their clients' financial wellbeing."</p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">LM</div>
+                        <div class="author-info">
+                            <h4>Lisa Martinez</h4>
+                            <p>Long-time Client</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="testimonial-card scroll-fade">
+                    <div class="testimonial-rating">★★★★★</div>
+                    <p class="testimonial-text">"Their tax planning advice helped me save significantly on my taxes. They're strategic thinkers who truly understand the complexities of tax law."</p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">RT</div>
+                        <div class="author-info">
+                            <h4>Robert Thompson</h4>
+                            <p>Real Estate Investor</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact-section">
+        <div class="contact-container">
+            <div class="contact-info">
+                <div class="scroll-fade">
+                    <div class="section-subtitle">Get in Touch</div>
+                    <h2 class="section-title">Visit Us or Schedule an Appointment</h2>
+                    <p style="color: var(--medium-gray); font-size: 1.05rem; margin-bottom: 2rem;">We're here to help with all your tax and accounting needs. Reach out today for a consultation.</p>
+                </div>
+                
+                <div class="info-card scroll-fade">
+                    <div class="info-icon">📍</div>
+                    <div class="info-content">
+                        <h3>Our Location</h3>
+                        <p>1743 Williamsbridge Rd<br>Bronx, NY 10461</p>
+                        <a href="https://maps.google.com/?q=1743+Williamsbridge+Rd,+Bronx,+NY+10461" target="_blank">Get Directions →</a>
+                    </div>
+                </div>
+                
+                <div class="info-card scroll-fade">
+                    <div class="info-icon">📞</div>
+                    <div class="info-content">
+                        <h3>Phone</h3>
+                        <p><a href="tel:7182234991">(718) 223-4991</a></p>
+                        <p style="font-size: 0.9rem; margin-top: 0.5rem;">Call us for immediate assistance</p>
+                    </div>
+                </div>
+                
+                <div class="info-card scroll-fade">
+                    <div class="info-icon">✉️</div>
+                    <div class="info-content">
+                        <h3>Email</h3>
+                        <p><a href="mailto:mahfoudhsenhoury@gmail.com">mahfoudhsenhoury@gmail.com</a></p>
+                        <p style="font-size: 0.9rem; margin-top: 0.5rem;">Send us an email anytime</p>
+                    </div>
+                </div>
+                
+                <div class="info-card scroll-fade">
+                    <div class="info-icon">🕐</div>
+                    <div class="info-content">
+                        <h3>Business Hours</h3>
+                        <ul class="hours-list">
+                            <li><span>Monday - Friday</span><span>9:00 AM - 5:00 PM</span></li>
+                            <li><span>Saturday</span><span>10:00 AM - 2:00 PM</span></li>
+                            <li><span>Sunday</span><span>Closed</span></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="contact-form-container scroll-fade">
+                <h2>Schedule Your Consultation</h2>
+                <p style="color: var(--medium-gray); margin-bottom: 2rem;">Fill out the form below and we'll get back to you within 24 hours.</p>
+                
+                <form id="contactForm" action="https://formspree.io/f/xrblkypr" method="POST">
+                    <div class="form-group">
+                        <label for="name">Full Name *</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">Email Address *</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="phone">Phone Number *</label>
+                        <input type="tel" id="phone" name="phone" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="service">Service Needed *</label>
+                        <select id="service" name="service" required>
+                            <option value="">Select a service</option>
+                            <option value="Tax Preparation">Tax Preparation</option>
+                            <option value="Bookkeeping Services">Bookkeeping Services</option>
+                            <option value="Tax Planning">Tax Planning</option>
+                            <option value="Business Formation">Business Formation</option>
+                            <option value="IRS Representation">IRS Representation</option>
+                            <option value="Financial Consulting">Financial Consulting</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="message">Message</label>
+                        <textarea id="message" name="message" placeholder="Tell us about your needs..."></textarea>
+                    </div>
+                    
+                    <button type="submit" class="submit-btn">Send Message</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Map Section -->
+    <section class="map-section">
+        <div id="map"></div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-about">
+                <h3>Pro Services Agency</h3>
+                <p>IRS Registered Agency providing expert tax and accounting solutions to the Bronx community for over 15 years. Your trusted partner in financial success.</p>
+                <div class="social-links">
+                    <a href="https://instagram.com/proservicesagency" target="_blank" class="social-link">📷</a>
+                    <a href="https://facebook.com/proservicesagency" target="_blank" class="social-link">f</a>
+                    <a href="https://linkedin.com/company/proservicesagency" target="_blank" class="social-link">in</a>
+                </div>
+            </div>
+            
+            <div class="footer-links">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#about">About Us</a></li>
+                    <li><a href="#services">Services</a></li>
+                    <li><a href="#testimonials">Reviews</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-links">
+                <h4>Services</h4>
+                <ul>
+                    <li><a href="#services">Tax Preparation</a></li>
+                    <li><a href="#services">Bookkeeping</a></li>
+                    <li><a href="#services">Tax Planning</a></li>
+                    <li><a href="#services">Business Formation</a></li>
+                    <li><a href="#services">IRS Representation</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-links">
+                <h4>Newsletter</h4>
+                <p style="color: rgba(255, 255, 255, 0.8); margin-bottom: 1rem;">Stay updated with tax tips and financial insights.</p>
+                <form class="newsletter">
+                    <input type="email" placeholder="Your email">
+                    <button type="submit">→</button>
+                </form>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; 2024 Pro Services Agency LLC. All rights reserved. | IRS Registered Agency | <a href="#" style="color: var(--primary-gold); text-decoration: none;">Privacy Policy</a></p>
+        </div>
+    </footer>
+
+    <script>
+        // ============================================
+        // CONFIGURATION - UPDATE YOUR INFO HERE
+        // ============================================
+        const CONFIG = {
+            businessName: "Pro Services Agency LLC",
+            
+            // Contact Information
+            phone: "(718) 223-4991",
+            phoneRaw: "7182234991", // Numbers only for tel: links
+            email: "mahfoudhsenhoury@gmail.com",
+            
+            // Address
+            address: {
+                street: "1743 Williamsbridge Rd",
+                city: "Bronx",
+                state: "NY",
+                zip: "10461",
+                full: "1743 Williamsbridge Rd, Bronx, NY 10461"
+            },
+            
+            // Map Coordinates
+            location: {
+                lat: 40.8570,
+                lng: -73.8664,
+                zoom: 15
+            },
+            
+            // Business Hours
+            hours: {
+                weekdays: "Monday - Friday: 9:00 AM - 5:00 PM",
+                saturday: "Saturday: 10:00 AM - 2:00 PM",
+                sunday: "Sunday: Closed"
+            },
+            
+            // Social Media Links (update with your actual links)
+            social: {
+                instagram: "https://instagram.com/proservicesagency",
+                facebook: "https://facebook.com/proservicesagency",
+                linkedin: "https://linkedin.com/company/proservicesagency"
+            }
+        };
+        
+        // ============================================
+        // AUTO-UPDATE CONTACT INFO ON PAGE
+        // ============================================
+        document.addEventListener('DOMContentLoaded', () => {
+            // Update email links
+            document.querySelectorAll('a[href*="mailto"]').forEach(link => {
+                link.href = `mailto:${CONFIG.email}`;
+                if (link.textContent.includes('@') || link.textContent === '') {
+                    link.textContent = CONFIG.email;
+                }
+            });
+            
+            // Update phone links
+            document.querySelectorAll('a[href*="tel"]').forEach(link => {
+                link.href = `tel:${CONFIG.phoneRaw}`;
+                if (link.textContent.includes('(') || link.textContent.includes('-')) {
+                    link.textContent = CONFIG.phone;
+                }
+            });
+        });
+        
+        // ============================================
+        // MOBILE MENU
+        // ============================================
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const navLinks = document.querySelector('.nav-links');
+        
+        mobileMenuBtn.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            mobileMenuBtn.textContent = navLinks.classList.contains('active') ? '✕' : '☰';
+        });
+        
+        // Close mobile menu when clicking a link
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('active');
+                mobileMenuBtn.textContent = '☰';
+            });
+        });
+        
+        // ============================================
+        // NAVBAR SCROLL EFFECT
+        // ============================================
+        const navContainer = document.querySelector('.nav-container');
+        
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navContainer.classList.add('scrolled');
+            } else {
+                navContainer.classList.remove('scrolled');
+            }
+        });
+        
+        // ============================================
+        // SCROLL ANIMATIONS
+        // ============================================
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+        
+        // Add animate-on-scroll class first, then observe
+        setTimeout(() => {
+            document.querySelectorAll('.scroll-fade').forEach(el => {
+                el.classList.add('animate-on-scroll');
+                observer.observe(el);
+            });
+        }, 100);
+        
+        // ============================================
+        // SMOOTH SCROLLING
+        // ============================================
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    const offsetTop = target.offsetTop - 80;
+                    window.scrollTo({
+                        top: offsetTop,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+        
+        // ============================================
+        // CONTACT FORM - Handled by Formspree
+        // ============================================
+        // Formspree handles the form submission automatically!
+        // When customer submits, email goes directly to mahfoudhsenhoury@gmail.com
+        // No additional JavaScript needed!
+        
+        // ============================================
+        // NEWSLETTER SUBMISSION
+        // ============================================
+        document.querySelectorAll('.newsletter').forEach(form => {
+            form.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const email = e.target.querySelector('input[type="email"]').value;
+                
+                // Create mailto link for newsletter signup
+                const subject = encodeURIComponent('Newsletter Subscription');
+                const body = encodeURIComponent(`Please add ${email} to the newsletter mailing list.`);
+                
+                window.location.href = `mailto:mahfoudhsenhoury@gmail.com?subject=${subject}&body=${body}`;
+                
+                alert('Thank you for subscribing! Your email client will open to confirm your subscription.');
+                e.target.reset();
+            });
+        });
+        
+        // ============================================
+        // INTERACTIVE MAP
+        // ============================================
+        try {
+            const map = L.map('map').setView([40.8570, -73.8664], 15);
+            
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '© OpenStreetMap contributors'
+            }).addTo(map);
+            
+            // Custom marker
+            const customIcon = L.divIcon({
+                html: '<div style="background: linear-gradient(135deg, #d4a574 0%, #c89560 100%); width: 40px; height: 40px; border-radius: 50% 50% 50% 0; transform: rotate(-45deg); display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 10px rgba(0,0,0,0.3);"><span style="transform: rotate(45deg); color: white; font-size: 20px;">📍</span></div>',
+                className: '',
+                iconSize: [40, 40],
+                iconAnchor: [20, 40]
+            });
+            
+            const googleMapsUrl = 'https://maps.google.com/?q=1743+Williamsbridge+Rd,+Bronx,+NY+10461';
+            
+            L.marker([40.8570, -73.8664], { icon: customIcon })
+                .addTo(map)
+                .bindPopup('<div style="text-align: center; font-family: Outfit, sans-serif;"><strong style="color: #0a2540;">Pro Services Agency LLC</strong><br>1743 Williamsbridge Rd<br>Bronx, NY 10461<br><a href="' + googleMapsUrl + '" target="_blank" style="color: #d4a574; font-weight: 600;">Get Directions →</a></div>')
+                .openPopup();
+        } catch (error) {
+            console.log('Map failed to load, showing fallback');
+            const mapEl = document.getElementById('map');
+            if (mapEl) {
+                mapEl.innerHTML = '<div style="display: flex; align-items: center; justify-content: center; height: 100%; background: #faf8f5; padding: 2rem;"><div style="text-align: center;"><h3 style="color: #0a2540; margin-bottom: 1rem;">📍 Our Location</h3><p style="margin-bottom: 1rem;">1743 Williamsbridge Rd<br>Bronx, NY 10461</p><a href="https://maps.google.com/?q=1743+Williamsbridge+Rd,+Bronx,+NY+10461" ta
